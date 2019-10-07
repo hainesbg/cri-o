@@ -13,7 +13,12 @@ get_minor() {
 perform_wipe() {
 	if [[ $WIPE -eq 0 ]]; then
 		echo "Wiping storage"
-		rm -rf "$CONTAINERS_STORAGE_DIR"
+		mountpoint "${CONTAINERS_STORAGE_DIR}"
+		if [[ $? -eq 0 ]]; then
+			find "${CONTAINERS_STORAGE_DIR}"
+		else
+			rm -rf "${CONTAINERS_STORAGE_DIR}"
+		fi
 	fi
 	exit 0
 }
